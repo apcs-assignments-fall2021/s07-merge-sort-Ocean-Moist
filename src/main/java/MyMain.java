@@ -7,9 +7,37 @@ public class MyMain {
     // ********************
 
     public static int[] merge(int[] arr1, int[] arr2) {
-        // COPY AND PASTE YOUR CODE HERE
-        return new int[] {1, 2, 3, 4};
+        int[] output = new int[arr1.length + arr2.length];
+        int idx1 = 0;
+        int idx2 = 0;
+        int outputIdx = 0;
+
+        while (idx1 < arr1.length && idx2 < arr2.length) {
+            if (arr1[idx1] < arr2[idx2]) {
+                output[outputIdx] = arr1[idx1];
+                idx1++;
+            } else {
+                output[outputIdx] = arr2[idx2];
+                idx2++;
+            }
+            outputIdx++;
+        }
+
+        while (idx1 < arr1.length) {
+            output[outputIdx] = arr1[idx1];
+            idx1++;
+            outputIdx++;
+        }
+
+        while (idx2 < arr2.length) {
+            output[outputIdx] = arr2[idx2];
+            idx2++;
+            outputIdx++;
+        }
+
+        return output;
     }
+
 
     // **************************
     // In-class Practice Problems
@@ -26,7 +54,9 @@ public class MyMain {
     // subArray([1, 4, 3, 7], 2, 4) => [3, 7]
     public static int[] subArray(int[] arr, int begin, int end) {
         // YOUR CODE HERE
-        return null;
+        int[] output = new int[end - begin];
+        if (end - begin >= 0) System.arraycopy(arr, begin, output, 0, end - begin);
+        return output;
     }
 
     // Carries out merge sort!
@@ -44,7 +74,13 @@ public class MyMain {
     // mergeSort([6, 3, 4, 1, 5, 8, 7, 2]) => [1, 2, 3, 4, 5, 6, 7, 8]
     public static int[] mergeSort(int[] arr) {
         // YOUR CODE HERE
-        return null;
+        if (arr.length == 1) {
+            return arr;
+        } else {
+            int[] left = subArray(arr, 0, arr.length / 2);
+            int[] right = subArray(arr, arr.length / 2, arr.length);
+            return merge(mergeSort(left), mergeSort(right));
+        }
     }
 
 
@@ -80,7 +116,15 @@ public class MyMain {
     // Tail recursive method
     public static ArrayList<Integer> insertTR(ArrayList<Integer> list, int x, int i) {
         // YOUR CODE HERE
-        return null;
+       if (i == list.size()) {
+           list.add(x);
+           return list;
+       } else if (list.get(i) > x) {
+           list.add(i, x);
+           return list;
+       } else {
+           return insertTR(list, x, i + 1);
+       }
     }
 
     // Next, write the insertion sort method, which is sorts a given
@@ -102,6 +146,14 @@ public class MyMain {
     /// insertionSort([6, 3, 4, 1, 5, 8, 7, 2]) => [1, 2, 3, 4, 5, 6, 7, 8]
     public static ArrayList<Integer> insertionSort(ArrayList<Integer> list) {
         // YOUR CODE HERE
-        return null;
+        if (list.size() == 1) {
+            return list;
+        } else {
+            int last = list.get(list.size() - 1);
+            list.remove(list.size() - 1);
+            ArrayList<Integer> sorted = insertionSort(list);
+            insert(sorted, last);
+            return sorted;
+        }
     }
 }
